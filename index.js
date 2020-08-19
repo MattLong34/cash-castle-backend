@@ -6,8 +6,11 @@ const cors = require('cors')
 const knex = require('knex')
 const config = require('./knexfile')[process.env.NODE_ENV || 'development']
 const database = knex(config)
+const bodyParser = require('body-parser')
 
 app.use(cors())
+
+app.use(bodyParser.json())
 
 app.get('/budgets', (request, response) => {
     database('budgets').select()
@@ -23,4 +26,8 @@ app.get('/budgets/:id', (request, response) => {
         })
 })
 
-app.listen(8080)
+const PORT = 8080
+
+app.listen(PORT, function(){
+    console.log(`Listening on port ${PORT}`)
+})
